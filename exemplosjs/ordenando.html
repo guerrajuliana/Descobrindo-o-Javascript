@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ordenando Valores</title>
+    <link rel="stylesheet" href="ordenando.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Ordenando Valores</h1>
+        <div id="input-section">
+            <div class="input-wrapper">
+                <p>valor</p>
+                <input type="number" class="valor" id="valor" placeholder="Digite um valor">
+            </div>
+            <div class="button-wrapper">
+                <button onclick="add()">Adicionar</button>
+            </div>
+        </div>
+        <div id="select-section">
+            <select id="algoritmo">
+                <option value="bubble">Bubble Sort</option>
+                <option value="selection">Selection Sort</option>
+                <option value="quick">Quick Sort</option>
+            </select>
+        </div>
+        <div id="actions-section">
+            <button onclick="ordenar()">Ordenar</button>
+            <button onclick="misturar()">Misturar</button>
+        </div>
+        <div id="results-section">
+            <ul id="valores">
+            </ul>
+        </div>
+    </div>
+
+   
+    <script src="ordenando.js"></script>
+    <script>
+        function add() {
+            const input = document.getElementById('valor');
+            const valores = document.getElementById('valores');
+
+            const node = document.createElement('li');
+            node.textContent = input.value;
+            valores.appendChild(node);
+            input.value = '';
+        }
+
+        function ordenar() {
+            const valores = document.getElementById('valores');
+            const algoritmo = document.getElementById('algoritmo').value;
+            const itens = Array.from(valores.children).map(item => parseInt(item.textContent));
+
+            switch (algoritmo) {
+                case 'bubble':
+                    bubble_sort(itens);
+                    break;
+                case 'selection':
+                    selection_sort(itens);
+                    break;
+                case 'quick':
+                    quick_sort(itens, 0, itens.length - 1);
+                    break;
+                default:
+                    break;
+            }
+
+            valores.innerHTML = '';
+            itens.forEach(item => {
+                const node = document.createElement('li');
+                node.textContent = item;
+                valores.appendChild(node);
+            });
+        }
+
+        function misturar() {
+            const valores = document.getElementById('valores');
+            const itens = Array.from(valores.children).map(item => parseInt(item.textContent));
+            shuffle(itens, itens.length * 2); 
+
+            valores.innerHTML = ''; 
+            itens.forEach(item => {
+                const node = document.createElement('li');
+                node.textContent = item;
+                valores.appendChild(node);
+            });
+        }
+    </script>
+</body>
+</html>
